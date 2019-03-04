@@ -10,12 +10,11 @@ import java.security.GeneralSecurityException;
 
 public class SheetsServiceUtil {
 
-    private static final String APPLICATION_NAME = "GOOGLE SHEET TOOL";
-
-    public static Sheets getSheetsSerivce() throws GeneralSecurityException, IOException {
-        Credential credential = GoogleAuthorizationUtil.authorize();
-        return new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), credential)
-                .setApplicationName(APPLICATION_NAME)
+    public static Sheets getSheetsSerivce(String credentialsFilePath, String tokensDirectoryPath) throws GeneralSecurityException, IOException {
+        Credential credential = GoogleAuthorizationUtil.authorize(credentialsFilePath, tokensDirectoryPath);
+        return new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(),
+                JacksonFactory.getDefaultInstance(), credential)
+                .setApplicationName("Google Sheets Application")
                 .build();
     }
 }

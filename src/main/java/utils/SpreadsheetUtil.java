@@ -22,6 +22,14 @@ public class SpreadsheetUtil {
         return spreadsheet.getSpreadsheetId();
     }
 
+    public ValueRange getValues(String spreadsheetId, String range) throws IOException {
+        return service.spreadsheets().values().get(spreadsheetId, range).execute();
+    }
+
+    public BatchGetValuesResponse batchGetValues(String spreadsheetId, List<String> ranges) throws IOException {
+        return service.spreadsheets().values().batchGet(spreadsheetId).setRanges(ranges).execute();
+    }
+
     public UpdateValuesResponse updateValues(String spreadsheetId, String range, String valueInputOption, List<List<Object>> values) throws IOException {
         ValueRange body = new ValueRange().setValues(values);
         return service.spreadsheets().values().update(spreadsheetId, range, body).setValueInputOption(valueInputOption).execute();

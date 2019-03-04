@@ -20,14 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 class GoogleAuthorizationUtil {
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-    private static final String TOKENS_DIRECTORY_PATH = "D:/token";
 
-    static Credential authorize() throws IOException, GeneralSecurityException {
-        InputStream inputStream = GoogleAuthorizationUtil.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+    static Credential authorize(String credentialsFilePath, String tokensDirectoryPath) throws IOException, GeneralSecurityException {
+        InputStream inputStream = GoogleAuthorizationUtil.class.getResourceAsStream(credentialsFilePath);
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(), new InputStreamReader(inputStream));
         List<String> scopes = Collections.singletonList(SheetsScopes.SPREADSHEETS);
-        DataStoreFactory fileDataStoreFactory = new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH));
+        DataStoreFactory fileDataStoreFactory = new FileDataStoreFactory(new File(tokensDirectoryPath));
         // DataStoreFactory memoryDataStoreFactory = new MemoryDataStoreFactory();
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), clientSecrets, scopes)
